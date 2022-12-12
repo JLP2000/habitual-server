@@ -1,5 +1,5 @@
 const { response } = require('../app');
-const db = require('../dbConfig/init');
+const db = require('../db/init');
 
 const Habit = require('./Habit')
 
@@ -39,6 +39,7 @@ module.exports = class HabitDate {
     static create(id, date){
         return new Promise (async(resolve, reject) => {
             try{
+                console.log("Hello")
                 let habitData = await db.query(`INSERT INTO habitdates (date, habit_id) VALUES ($1, $2) RETURNING *`, [date, id])
                 let newHabitDate = new HabitDate(habitData);
                 resolve(newHabitDate);

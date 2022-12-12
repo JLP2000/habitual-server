@@ -2,8 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const server = express();
 
-const userRouter = require('./routes/user')
-const habitsRouter = require('./routes/habits')
+const userRouter = require('./routers/users')
+const habitsRouter = require('./routers/habits')
 const habitsDateRouter = require('./routers/habitdate')
 
 server.use(cors());
