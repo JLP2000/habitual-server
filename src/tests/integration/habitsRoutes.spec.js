@@ -33,12 +33,6 @@ describe('Testing with a test database (ElephantSQL)', () => {
         // console.log(token)
     })
 
-    // it('Returns the number of habits in the database', async () => {
-    //     const res = await request(api).get('/habits').set({Authorization: });
-    //     expect(res.statusCode).toEqual(200);
-    //     expect(res.body.length).toEqual(3);
-    // })
-
     it('Creates a new habit and dates associating to that habit', async() => {
         const res = await request(api).post('/habits')
                           .send({
@@ -59,6 +53,15 @@ describe('Testing with a test database (ElephantSQL)', () => {
         console.log(Object.keys(datesRes.body).length)
         expect(Object.keys(datesRes.body).length).toEqual(3)
     })
+
+    it('Returns the number of habits in the database', async () => {
+        const res = await request(api).get('/habits').set({Authorization: token});
+        expect(res.statusCode).toEqual(200);
+        // expect 3 because there are 3 dates inbetween the start and end date of the created habit
+        expect(res.body.length).toEqual(3);
+    })
+
+    
 
     it('Updates a habit', async() => {
         const res = await request(api).put('/habits/1')
