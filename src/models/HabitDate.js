@@ -1,4 +1,3 @@
-const { response } = require("../app")
 const db = require("../db/init")
 
 const Habit = require("./Habit")
@@ -52,6 +51,18 @@ module.exports = class HabitDate {
 				resolve(newHabitDate)
 			} catch (err) {
 				reject("Habit Date could not be created")
+			}
+		})
+	}
+
+	static update(id, data) {
+		return new Promise (async (resolve, reject) => {
+			try {
+				const { date_id, complete, on_time} = data;
+				let result = await db.query('UPDATE habitdates SET complete = $1, on_time = $2 WHERE habitdate_id = $3 RETURNING *;', [complete, on_time, id]);
+				resolve(result.rows[0]);
+			} catch (err) {
+				reject("Could not update habit date")
 			}
 		})
 	}

@@ -19,4 +19,13 @@ async function show(req, res) {
     };
 }
 
-module.exports = { index, show }
+async function update(req, res) {
+    try {
+        const habitdate = await HabitDate.update(req.params.id, req.body);
+        res.status(200).json(habitdate)
+    } catch (err) {
+        res.status(404).send(err)
+    }
+}
+
+module.exports = { index, show, update }

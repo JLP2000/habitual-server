@@ -48,7 +48,7 @@ async function destroy(req, res) {
 
 async function update(req, res) {
 	try {
-		const habit = await Habit.update(req.body)
+		const habit = await Habit.update(req.params.id, req.body)
         res.status(200).json(habit)
 	} catch (err) {
 		res.status(417).json(err)

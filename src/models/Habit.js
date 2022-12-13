@@ -100,13 +100,13 @@ class Habit {
 		})
 	}
 
-	static async update(habitData) {
+	static async update(id, habitData) {
 		return new Promise(async (resolve, reject) => {
 			try {
-				const { habit_id, name, note, colour } = habitData
+				const { name, note, colour } = habitData
 				const result = await db.query(
 					"UPDATE habits SET name = $1, note = $2, colour = $3 WHERE habit_id = $4 RETURNING *;",
-					[name, note, colour, habit_id]
+					[name, note, colour, id]
 				)
 				resolve(result.rows[0])
 			} catch (err) {
