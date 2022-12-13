@@ -1,3 +1,4 @@
+
 {
   "name": "src",
   "version": "1.0.0",
@@ -5,7 +6,7 @@
   "main": "app.js",
   "scripts": {
     "setup-dev": "node ./db/seed.js",
-    "start": "nodemon server.js",
+    "start": "nodemon --trace-warnings server.js",
     "test": "jest --setupFiles ./tests/integration/config.js --watchAll --detectOpenHandles --runInBand --verbose"
   },
   "keywords": [],
