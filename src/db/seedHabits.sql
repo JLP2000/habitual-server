@@ -23,12 +23,12 @@ CREATE TABLE habits(
     habit_id SERIAL PRIMARY KEY,
     
     name varchar(100) NOT NULL,
-    start_date DATE,
+    start_date DATE NOT NULL,
     interval_in_days integer,
     interval_in_months integer,
-    end_date DATE,
-    note varchar(500) NOT NULL,
-    colour varchar(100) NOT NULL,
+    end_date DATE NOT NULL,
+    note varchar(500),
+    colour varchar(100),
     user_id int NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );

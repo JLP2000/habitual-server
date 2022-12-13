@@ -18,10 +18,10 @@ class Habit {
 		return new Promise(async (resolve, reject) => {
 			try {
 				let response = await db.query(
-					"SELECT * FROM habits WHERE $1 = user_id;",
+					"SELECT * FROM habits INNER JOIN habitdates ON habits.habit_id = habitdates.habit_id WHERE $1 = habits.user_id;",
 					[userId]
 				)
-				// console.log(response)
+				console.log(response.rows[0])
 				let habits = response.rows.map((h) => new Habit(h))
 				resolve(habits)
 			} catch (err) {
@@ -120,16 +120,16 @@ class Habit {
 		return new Promise(async (resolve, reject) => {
 			try {
 				let date = dayjs(this.start_date)
-				HabitDate.create(this.habit_id, date)
+				await HabitDate.create(this.habit_id, date)
 				if (this.interval_in_months == 0) {
 					while (date.diff(dayjs(this.end_date), "day") != 0) {
 						date = dayjs(date).add(this.interval_in_days, "day")
-						let result = HabitDate.create(this.habit_id, date)
+						let result = await HabitDate.create(this.habit_id, date)
 					}
 				} else if (this.interval_in_days == 0) {
 					while (date.diff(dayjs(this.end_date), "month") != 0) {
 						date = dayjs(date).add(this.interval_in_months, "month")
-						let result1 = HabitDate.create(this.habit_id, date)
+						let result1 = await HabitDate.create(this.habit_id, date)
 					}
 				}
 				resolve("Dates added")

@@ -26,8 +26,9 @@ async function show(req, res) {
 async function create(req, res) {
 	try {
 		const userToken = req.headers["authorization"]
-		const { user_id } = Session.findBySessionToken(userToken)
-		const newHabit = await Habit.create({ ...req.body, user_id })
+		const sesh = await Session.findBySessionToken(userToken)
+		console.log("create - controllers: ", req.body)
+		const newHabit = await Habit.create({ ...req.body, user_id: sesh.user_id })
 		res.status(201).json(newHabit)
 	} catch (err) {
 		res.status(422).json(err)
