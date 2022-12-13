@@ -16,13 +16,13 @@ class Habit {
 
 	static async all(userId) {
 		return new Promise(async (resolve, reject) => {
+			console.log(userId)
 			try {
 				let response = await db.query(
-					"SELECT * FROM habits INNER JOIN habitdates ON habits.habit_id = habitdates.habit_id WHERE $1 = habits.user_id;",
+					"SELECT habits.*, habitdates.* FROM habits INNER JOIN habitdates ON habits.habit_id = habitdates.habit_id WHERE habits.user_id = $1;",
 					[userId]
 				)
-				console.log(response.rows[0])
-				let habits = response.rows.map((h) => new Habit(h))
+				let habits = response.rows
 				resolve(habits)
 			} catch (err) {
 				reject("Habit not found")
@@ -121,12 +121,15 @@ class Habit {
 			try {
 				let date = dayjs(this.start_date)
 				await HabitDate.create(this.habit_id, date)
-				if (this.interval_in_months == 0) {
+				if (this.interval_in_months == 0 || this.interval_in_months == null) {
 					while (date.diff(dayjs(this.end_date), "day") != 0) {
 						date = dayjs(date).add(this.interval_in_days, "day")
 						let result = await HabitDate.create(this.habit_id, date)
 					}
-				} else if (this.interval_in_days == 0) {
+				} else if (
+					this.interval_in_days == 0 ||
+					this.interval_in_days == null
+				) {
 					while (date.diff(dayjs(this.end_date), "month") != 0) {
 						date = dayjs(date).add(this.interval_in_months, "month")
 						let result1 = await HabitDate.create(this.habit_id, date)

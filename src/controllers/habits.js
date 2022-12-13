@@ -1,14 +1,12 @@
 const Habit = require("../models/Habit")
 const User = require("../models/User")
 const Session = require("../models/Session")
-const { response } = require("../app")
 
 async function index(req, res) {
 	try {
 		const userToken = req.headers["authorization"]
-		const { user_id } = Session.findBySessionToken(userToken)
-		const habits = await Habit.all(user_id)
-		// console.log(habits);
+		const sesh = await Session.findBySessionToken(userToken)
+		const habits = await Habit.all(sesh.user_id)
 		res.status(200).json(habits)
 	} catch (err) {
 		res.status(500).json(err)
@@ -49,7 +47,7 @@ async function destroy(req, res) {
 async function update(req, res) {
 	try {
 		const habit = await Habit.update(req.params.id, req.body)
-        res.status(200).json()
+		res.status(200).json(habit)
 	} catch (err) {
 		res.status(417).json(err)
 	}

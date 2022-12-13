@@ -56,7 +56,6 @@ class Session {
 				if (response.rows.length != 1) {
 					throw new Error("Unable to locate session.")
 				}
-				console.log("session model response: ", response.rows[0])
 				let session = new Session(response.rows[0])
 				resolve(session)
 			} catch (err) {
