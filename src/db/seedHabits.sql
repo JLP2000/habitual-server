@@ -36,7 +36,7 @@ CREATE TABLE habits(
 CREATE TABLE habitdates(
     habitdate_id INT GENERATED ALWAYS AS IDENTITY,
     habit_id int NOT NULL,
-    date DATE DEFAULT NOW(),
+    date DATE,
     complete BOOLEAN DEFAULT FALSE,
     on_time BOOLEAN DEFAULT FALSE,
     PRIMARY KEY(habitdate_id),
