@@ -85,13 +85,21 @@ class Habit {
 		})
 	}
 
-	async destroy() {
+	destroy() {
 		return new Promise(async (resolve, reject) => {
 			try {
+
+				// delete dates with the habits
 				const result = await db.query(
-					"DELETE FROM habits WHERE habit_id = $1;",
+					"DELETE FROM habitdates WHERE habit_id = $1",
 					[this.habit_id]
 				)
+
+				const result1 = await db.query(
+					"DELETE FROM habits WHERE habit_id = $1",
+					[this.habit_id]
+				)
+
 				resolve("Habit was destroyed")
 			} catch (err) {
 				reject("Could not destroy habit")

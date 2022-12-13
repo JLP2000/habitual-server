@@ -37,10 +37,11 @@ async function create(req, res) {
 async function destroy(req, res) {
 	try {
 		const habit = await Habit.findById(req.params.id)
-		const res = habit.destroy()
+		const resp = await habit.destroy()
 		res.status(204).end()
 	} catch (err) {
-		res.status(404).json(err)
+		res.status(404).json(err);
+		console.log(err)
 	}
 }
 

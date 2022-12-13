@@ -69,9 +69,10 @@ describe('Testing with a test database (ElephantSQL)', () => {
                                 colour: 'Purple'
                             })
                             .set({Authorization: token})
+
         expect(res.statusCode).toEqual(200);
         
-        const habitRes = await request(api).get('/habits/1')
+        const habitRes = await request(api).get('/habits/1').set({Authorization: token})
         expect(habitRes.statusCode).toEqual(200)
         console.log(habitRes.body)
         expect(habitRes.body).toEqual({ habit_id: 1,
@@ -92,6 +93,4 @@ describe('Testing with a test database (ElephantSQL)', () => {
         const habitRes = await request(api).get('/habits/1').set({Authorization: token});
         expect(habitRes.statusCode).toEqual(404);
     })
-
-
 })
