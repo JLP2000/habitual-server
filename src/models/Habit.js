@@ -21,7 +21,7 @@ class Habit {
 					"SELECT * FROM habits WHERE $1 = user_id;",
 					[userId]
 				)
-				console.log(response)
+				// console.log(response)
 				let habits = response.rows.map((h) => new Habit(h))
 				resolve(habits)
 			} catch (err) {
