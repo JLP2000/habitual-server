@@ -6,9 +6,8 @@ const { response } = require("../app")
 async function index(req, res) {
 	try {
 		const userToken = req.headers["authorization"]
-		const { user_id } = Session.findBySessionToken(userToken)
-		const habits = await Habit.all(user_id)
-		// console.log(habits);
+		const sesh = await Session.findBySessionToken(userToken)
+		const habits = await Habit.all(sesh.user_id)
 		res.status(200).json(habits)
 	} catch (err) {
 		res.status(500).json(err)
