@@ -51,4 +51,15 @@ async function login(req, res) {
 	}
 }
 
-module.exports = { register, login }
+async function logout(req, res) {
+	try {
+		const session = await Session.findBySessionToken(req.body);
+		const resp = session.destroy();
+		res.status(204).end();
+	} catch (err) {
+		res.status(404).json({err});
+	}
+	
+}
+
+module.exports = { register, login, logout }
