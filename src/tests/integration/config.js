@@ -7,7 +7,7 @@ const testSeed = fs.readFileSync(__dirname + '/testSeed.sql').toString();
 const resetTestDB = () => {
     return new Promise (async (resolve, reject) => {
         try{
-            const db = new Pool()
+            const db = new Pool({port: 5000})
             await db.query(testSeed);
             resolve('Test DB reset successfully')
         } catch (err){

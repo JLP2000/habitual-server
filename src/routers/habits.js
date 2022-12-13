@@ -4,11 +4,11 @@ const habitsController = require("../controllers/habits")
 const authenticator = require("../middleware/auth")
 
 habitsRouter.get("/", habitsController.index)
-habitsRouter.get("/:id", authenticator, habitsController.show)
+habitsRouter.get("/:id", habitsController.show)
 habitsRouter.get("/new", authenticator, habitsController.neww)
 habitsRouter.get("/:id/edit", authenticator, habitsController.edit)
-habitsRouter.post("/", authenticator, habitsController.create)
-habitsRouter.put("/:id", authenticator, habitsController.update)
+habitsRouter.post("/", habitsController.create)
+habitsRouter.put("/:id", habitsController.update)
 habitsRouter.delete("/:id", authenticator, habitsController.destroy)
 
 module.exports = habitsRouter

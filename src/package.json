@@ -4,9 +4,9 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "setup-dev": "node ./db/seed.js",
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "test": "jest --setupFiles ./tests/integration/config.js --watchAll --detectOpenHandles --runInBand --verbose"
   },
   "keywords": [],
   "author": "",

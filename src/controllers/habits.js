@@ -1,6 +1,7 @@
 const Habit = require("../models/Habit")
 const User = require("../models/User")
 const Session = require("../models/Session")
+const { response } = require("../app")
 
 async function index(req, res) {
 	try {
@@ -47,6 +48,7 @@ async function destroy(req, res) {
 async function update(req, res) {
 	try {
 		const habit = await Habit.update(req.body)
+        res.status(200).json(habit)
 	} catch (err) {
 		res.status(417).json(err)
 	}
