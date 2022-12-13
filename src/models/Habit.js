@@ -95,7 +95,7 @@ class Habit {
 				resolve("Habit was destroyed")
 			} catch (err) {
 				reject("Could not destroy habit")
-				console.log(err)
+				// console.log(err)
 			}
 		})
 	}

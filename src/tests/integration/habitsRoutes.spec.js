@@ -1,11 +1,18 @@
-describe('Habit Endpoints', () => {
+// require('dotenv').config({ path: `.env.development` }
+
+describe('Testing with a test database (ElephantSQL)', () => {
     let api;
-    beforeEach(async() => {
-        await resetTestDB()
-    });
+    let token;
+    // beforeEach(async() => {
+        // await resetTestDB()
+    // });
 
     beforeAll(async() => {
-        api = app.listen(5000, () => console.log("Test server on port 5000"))
+        await resetTestDB()
+        api = app.listen(5001, () => {
+            console.log("Test server on port 5000")
+            console.log(process.env.DB_URL)
+        })
     });
 
     afterAll(done => {
@@ -13,11 +20,24 @@ describe('Habit Endpoints', () => {
         api.close(done)
     })
 
-    it('Returns the number of habits in the database', async () => {
-        const res = await request(api).get('/habits');
-        expect(res.statusCode).toEqual(200);
-        expect(res.body.length).toEqual(3);
+    it('Creates a User', async() => {
+        const res = await request(api).post('/users/register').send({username: 'Josh1', password: '123'})
+        expect(res.statusCode).toEqual(201);
     })
+
+    it('Log into existing user', async() => {
+        const res = await request(api).post('/users/login').send({username: 'Josh1', password: '123'})
+        expect(res.statusCode).toEqual(200);
+
+        token = res.body.session
+        // console.log(token)
+    })
+
+    // it('Returns the number of habits in the database', async () => {
+    //     const res = await request(api).get('/habits').set({Authorization: });
+    //     expect(res.statusCode).toEqual(200);
+    //     expect(res.body.length).toEqual(3);
+    // })
 
     it('Creates a new habit and dates associating to that habit', async() => {
         const res = await request(api).post('/habits')
@@ -30,42 +50,48 @@ describe('Habit Endpoints', () => {
                             note: "Testing a habit",
                             colour: "Red",
                             user_id: 1
-                          });
+                          })
+                          .set({Authorization: token})
         expect(res.statusCode).toEqual(201);
         expect(res.body).toHaveProperty("habit_id")
 
-        const datesRes = await request(api).get('/habitdate/4');
-        expect(datesRes.body.length).toEqual(3)
-    })
-
-    it('Delete a habit', async() => {
-        const res = await request(api).delete('/habits/1')
-        expect(res.statusCode).toEqual(204);
-
-        const habitRes = await request(api).get('/habits/1');
-        expect(habitRes.statusCode).toEqual(404);
+        const datesRes = await request(api).get('/habitdates/1');
+        console.log(Object.keys(datesRes.body).length)
+        expect(Object.keys(datesRes.body).length).toEqual(3)
     })
 
     it('Updates a habit', async() => {
-        const res = await request(api).put('/habits/2')
+        const res = await request(api).put('/habits/1')
                             .send({
-                                habit_id: 2,
+                                habit_id: 1,
                                 name: 'Updated',
-                                note: 'Updating habit id 2',
+                                note: 'Updating habit id 1',
                                 colour: 'Purple'
                             })
+                            .set({Authorization: token})
         expect(res.statusCode).toEqual(200);
         
-        const habitRes = await request(api).get('/habits/2')
+        const habitRes = await request(api).get('/habits/1')
         expect(habitRes.statusCode).toEqual(200)
-        expect(habitRes.body).toEqual({ name: "Updated", 
-                                        start_date: "2000-11-12",
+        console.log(habitRes.body)
+        expect(habitRes.body).toEqual({ habit_id: 1,
+                                        name: "Updated", 
+                                        start_date: "2000-11-12T00:00:00.000Z",
                                         interval_in_days: 1,
                                         interval_in_months: 0,
-                                        end_date: "2000-11-14",
-                                        note: "Updating habit id 2",
-                                        colour: "Purple",
-                                        user_id: 2})
+                                        end_date: "2000-11-14T00:00:00.000Z",
+                                        note: "Updating habit id 1",
+                                        colour: "Purple"})
 
     })
+
+    it('Delete a habit', async() => {
+        const res = await request(api).delete('/habits/1').set({Authorization: token})
+        expect(res.statusCode).toEqual(204);
+
+        const habitRes = await request(api).get('/habits/1').set({Authorization: token});
+        expect(habitRes.statusCode).toEqual(404);
+    })
+
+
 })

@@ -3,7 +3,6 @@ DROP TABLE IF EXISTS habitdates;
 DROP TABLE IF EXISTS habits;
 DROP TABLE IF EXISTS users;
 
-
 CREATE TABLE users(
     user_id SERIAL PRIMARY KEY,
     username VARCHAR(100) UNIQUE NOT NULL,
@@ -43,62 +42,38 @@ CREATE TABLE habitdates(
     FOREIGN KEY(habit_id) REFERENCES habits(habit_id)
 );
 
-INSERT INTO user_session (session_token, user_id) 
-VALUES
-(
-    '2cd442cd442cd442cd44',
-    1
-)
+-- INSERT INTO users (username, user_password) 
+-- VALUES 
+-- ('Tester', 'password');
 
-INSERT INTO habitdates (habit_id, date, complete, on_time)
-VALUES
-(
-    2,
-    '2022-3-4',
-    TRUE,
-    FALSE
-),
-(
-    3,
-    '2022-5-1',
-    TRUE,
-    FALSE
-);
 
-INSERT INTO habits (name, start_date, interval_in_days, interval_in_months, end_date, note, colour, user_id)
-VALUES
-(
-    'Test Habit 1',
-    '2022-1-1',
-    2,
-    0,
-    '2022-1-10',
-    'Testing a Habit 1',
-    'Blue',
-    1
-),
-(
-    'Test Habit 2',
-    '2022-3-4',
-    0,
-    1,
-    '2022-4-10',
-    'Testing a Habit 2',
-    'Purple',
-    2
-),
-(
-    'Test Habit 3',
-    '2022-5-1',
-    2,
-    0,
-    '2022-6-10',
-    'Testing a Habit 3',
-    'Red',
-    1
-);
+-- INSERT INTO habits (name, start_date, interval_in_days, interval_in_months, end_date, note, colour, user_id)
+-- VALUES
+-- (
+--     'Test Habit 1',
+--     '2022-1-1',
+--     2,
+--     0,
+--     '2022-1-10',
+--     'Testing a Habit 1',
+--     'Blue',
+--     1
+-- ),
+-- (
+--     'Test Habit 2',
+--     '2022-3-4',
+--     0,
+--     1,
+--     '2022-4-10',
+--     'Testing a Habit 2',
+--     'Purple',
+--     2
+-- );
 
-INSERT INTO users (username, user_password) 
-VALUES 
-('Tester', 'password'),
-('Tester2', 'password');
+
+-- INSERT INTO user_session (session_token, user_id) 
+-- VALUES
+-- (
+--     '32325976-00d1-44b7-b',
+--     1
+-- );

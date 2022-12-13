@@ -49,7 +49,7 @@ async function destroy(req, res) {
 async function update(req, res) {
 	try {
 		const habit = await Habit.update(req.params.id, req.body)
-        res.status(200).json(habit)
+        res.status(200).json()
 	} catch (err) {
 		res.status(417).json(err)
 	}
