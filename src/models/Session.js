@@ -58,6 +58,18 @@ class Session {
             }
         })
     };
+
+    async deleteSession() {
+        return new Promise (async (resolve, reject) => {
+            try {
+                const result = await db.query("DELETE FROM user_session WHERE session_id = $1;", [this.session_id]);
+                resolve("Session deleted");
+            } catch (err) {
+                reject("Could not delete session");
+                console.log(err);
+            }
+        })
+    }
 };
 
 module.exports = Session;
