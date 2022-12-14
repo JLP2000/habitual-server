@@ -43,8 +43,6 @@ CREATE TABLE habitdates(
     FOREIGN KEY(habit_id) REFERENCES habits(habit_id)
 );
 
-INSERT INTO users (username, user_password) VALUES ('Josh', 'password');
- 
 INSERT INTO habits (name, start_date, interval_in_days, interval_in_months, end_date, note, colour, user_id)
 VALUES
 ('Test Habit', '2000-11-12', 1, 0, '2000-12-12', 'Testing a habit', 'Blue', 1);
