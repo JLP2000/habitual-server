@@ -56,15 +56,18 @@ module.exports = class HabitDate {
 	}
 
 	static update(habitdate_id, data) {
-		return new Promise (async (resolve, reject) => {
+		return new Promise(async (resolve, reject) => {
 			try {
-				const {complete, on_time} = data;
-				let result = await db.query('UPDATE habitdates SET complete = $1, on_time = $2 WHERE habitdate_id = $3 RETURNING *;', [complete, on_time, habitdate_id]);
-				resolve(result.rows[0]);
+				const { date_id, complete, on_time } = data
+				let result = await db.query(
+					"UPDATE habitdates SET complete = $1, on_time = $2 WHERE habitdate_id = $3 RETURNING habitdate_id;",
+					[complete, on_time, id]
+				)
+				let habit = await HabitDate.findById(result.rows[0].habitdate_id)
+				resolve(habit)
 			} catch (err) {
 				reject("Could not update habit date")
 			}
 		})
 	}
-
 }
