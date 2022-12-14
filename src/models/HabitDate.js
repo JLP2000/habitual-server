@@ -55,7 +55,7 @@ module.exports = class HabitDate {
 		})
 	}
 
-	static update(habitdate_id, data) {
+	static update(id, data) {
 		return new Promise(async (resolve, reject) => {
 			try {
 				const { date_id, complete, on_time } = data
