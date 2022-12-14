@@ -27,10 +27,10 @@ module.exports = class HabitDate {
 		return new Promise(async (resolve, reject) => {
 			try {
 				let habitData = await db.query(
-					`SELECT * FROM habitdates WHERE habit_id = $1`,
+					`SELECT * FROM habitdates WHERE habitdate_id = $1`,
 					[id]
 				)
-				let target = habitData.rows.map((habit) => new HabitDate(habit))
+				let target = new HabitDate(habitData.rows[0])
 				resolve(target)
 			} catch (err) {
 				reject("Habit date not found")
@@ -56,11 +56,14 @@ module.exports = class HabitDate {
 	}
 
 	static update(id, data) {
-		return new Promise (async (resolve, reject) => {
+		return new Promise(async (resolve, reject) => {
 			try {
-				const { date_id, complete, on_time} = data;
-				let result = await db.query('UPDATE habitdates SET complete = $1, on_time = $2 WHERE habitdate_id = $3 RETURNING *;', [complete, on_time, id]);
-				resolve(result.rows[0]);
+				const { date_id, complete, on_time } = data
+				let result = await db.query(
+					"UPDATE habitdates SET complete = $1, on_time = $2 WHERE habitdate_id = $3 RETURNING *;",
+					[complete, on_time, id]
+				)
+				resolve(result.rows[0])
 			} catch (err) {
 				reject("Could not update habit date")
 			}
