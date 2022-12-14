@@ -19,7 +19,7 @@ class Habit {
 			console.log(userId)
 			try {
 				let response = await db.query(
-					"SELECT habits.*, habitdates.* FROM habits INNER JOIN habitdates ON habits.habit_id = habitdates.habit_id WHERE habits.user_id = $1;",
+					"SELECT habits.*, habitdates.* FROM habits INNER JOIN habitdates ON habits.habit_id = habitdates.habit_id WHERE habits.user_id = $1 ORDER BY date;",
 					[userId]
 				)
 				let habits = response.rows
