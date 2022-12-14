@@ -50,7 +50,7 @@ class Habit {
 	static async create(habitData) {
 		return new Promise(async (resolve, reject) => {
 			try {
-				// console.log(habitData)
+				//console.log(habitData)
 				const {
 					name,
 					start_date,
