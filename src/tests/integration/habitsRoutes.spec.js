@@ -33,6 +33,12 @@ describe('Testing with a test database (ElephantSQL)', () => {
         // console.log(token)
     })
 
+    it('Finds and returns a user using the session token', async() => {
+        const res = await request(api).get(`/users/${token}`)
+        expect(res.statusCode).toEqual(200)
+        expect(res.body.title).toEqual('Josh1')
+    })
+
     it('Creates a new habit and dates associating to that habit', async() => {
         const res = await request(api).post('/habits')
                           .send({
