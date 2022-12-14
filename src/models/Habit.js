@@ -85,17 +85,24 @@ class Habit {
 		})
 	}
 
-	async destroy() {
+	destroy() {
 		return new Promise(async (resolve, reject) => {
 			try {
+				// delete dates with the habits
 				const result = await db.query(
-					"DELETE FROM habits WHERE habit_id = $1;",
+					"DELETE FROM habitdates WHERE habit_id = $1",
 					[this.habit_id]
 				)
+
+				const result1 = await db.query(
+					"DELETE FROM habits WHERE habit_id = $1",
+					[this.habit_id]
+				)
+
 				resolve("Habit was destroyed")
 			} catch (err) {
 				reject("Could not destroy habit")
-				console.log(err)
+				// console.log(err)
 			}
 		})
 	}
@@ -122,7 +129,7 @@ class Habit {
 				let date = dayjs(this.start_date)
 				await HabitDate.create(this.habit_id, date)
 				if (this.interval_in_months == 0 || this.interval_in_months == null) {
-					while (date.diff(dayjs(this.end_date), "day") != 0) {
+					while (date.isBefore(dayjs(this.end_date))) {
 						date = dayjs(date).add(this.interval_in_days, "day")
 						let result = await HabitDate.create(this.habit_id, date)
 					}
@@ -130,7 +137,7 @@ class Habit {
 					this.interval_in_days == 0 ||
 					this.interval_in_days == null
 				) {
-					while (date.diff(dayjs(this.end_date), "month") != 0) {
+					while (date.isBefore(dayjs(this.end_date))) {
 						date = dayjs(date).add(this.interval_in_months, "month")
 						let result1 = await HabitDate.create(this.habit_id, date)
 					}

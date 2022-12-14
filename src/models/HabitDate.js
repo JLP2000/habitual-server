@@ -30,7 +30,7 @@ module.exports = class HabitDate {
 					`SELECT * FROM habitdates WHERE habit_id = $1`,
 					[id]
 				)
-				let target = new HabitDate(habitData.rows[0])
+				let target = habitData.rows.map((habit) => new HabitDate(habit))
 				resolve(target)
 			} catch (err) {
 				reject("Habit date not found")
@@ -47,7 +47,7 @@ module.exports = class HabitDate {
 					[date, id]
 				)
 				let newHabitDate = new HabitDate(habitData.rows[0])
-				console.log(habitData.rows[0])
+				// console.log(habitData.rows[0])
 				resolve(newHabitDate)
 			} catch (err) {
 				reject("Habit Date could not be created")

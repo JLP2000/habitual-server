@@ -7,7 +7,7 @@ const testSeed = fs.readFileSync(__dirname + '/testSeed.sql').toString();
 const resetTestDB = () => {
     return new Promise (async (resolve, reject) => {
         try{
-            const db = new Pool({port: 5000})
+            const db = new Pool({ connectionString: 'postgres://hcwhtede:J7a8uihmawGG1D7xyzruhmOrbpjQ2C3f@mouse.db.elephantsql.com/hcwhtede'});
             await db.query(testSeed);
             resolve('Test DB reset successfully')
         } catch (err){

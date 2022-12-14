@@ -46,6 +46,7 @@ class User {
         return new Promise (async (resolve, reject) => {
             try {
                 const { username, password } = data;
+                // console.log('Users model: ', process.env.DB_URL)
                 let response = await db.query("INSERT INTO users (username, user_password) VALUES ($1, $2) RETURNING user_id;",
                 [username, password]);
                 const newId = response.rows[0].user_id;
