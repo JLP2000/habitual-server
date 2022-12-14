@@ -27,10 +27,10 @@ module.exports = class HabitDate {
 		return new Promise(async (resolve, reject) => {
 			try {
 				let habitData = await db.query(
-					`SELECT * FROM habitdates WHERE habit_id = $1`,
+					`SELECT * FROM habitdates WHERE habitdate_id = $1`,
 					[id]
 				)
-				let target = habitData.rows.map((habit) => new HabitDate(habit))
+				let target = new HabitDate(habitData.rows[0])
 				resolve(target)
 			} catch (err) {
 				reject("Habit date not found")
@@ -66,5 +66,5 @@ module.exports = class HabitDate {
 			}
 		})
 	}
-	
+
 }
