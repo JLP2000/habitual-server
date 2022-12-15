@@ -11,7 +11,7 @@ describe('Testing with a test database (ElephantSQL)', () => {
         await resetTestDB()
         api = app.listen(5001, () => {
             console.log("Test server on port 5000")
-            console.log(process.env.DB_URL)
+            // console.log(process.env.DB_URL)
         })
     });
 
@@ -55,9 +55,9 @@ describe('Testing with a test database (ElephantSQL)', () => {
         expect(res.statusCode).toEqual(201);
         expect(res.body).toHaveProperty("habit_id")
 
-        const datesRes = await request(api).get('/habitdates/1');
-        console.log(Object.keys(datesRes.body).length)
-        expect(Object.keys(datesRes.body).length).toEqual(3)
+        const datesRes = await request(api).get('/habitdates/habits/1');
+        // console.log(Object.keys(datesRes.body.habitdate).length)
+        expect(Object.keys(datesRes.body.habitdate).length).toEqual(3)
     })
 
     it('Returns the number of habits in the database', async () => {
@@ -66,8 +66,6 @@ describe('Testing with a test database (ElephantSQL)', () => {
         // expect 3 because there are 3 dates inbetween the start and end date of the created habit
         expect(res.body.length).toEqual(3);
     })
-
-    
 
     it('Updates a habit', async() => {
         const res = await request(api).put('/habits/1')
@@ -83,7 +81,7 @@ describe('Testing with a test database (ElephantSQL)', () => {
         
         const habitRes = await request(api).get('/habits/1').set({Authorization: token})
         expect(habitRes.statusCode).toEqual(200)
-        console.log(habitRes.body)
+        // console.log(habitRes.body)
         expect(habitRes.body).toEqual({ habit_id: 1,
                                         name: "Updated", 
                                         start_date: "2000-11-12T00:00:00.000Z",
@@ -95,6 +93,24 @@ describe('Testing with a test database (ElephantSQL)', () => {
 
     })
 
+    // Testing HabitDate routes
+    it('Returns all habit dates', async() => {
+        const res = await request(api).get('/habitdates')
+        expect(res.statusCode).toEqual(200);
+        expect(res.body.length).toEqual(3);
+    })
+
+    it('Finds habit dates by their habitdate_id', async() => {
+        const res = await request(api).get('/habitdates/1')
+        expect(res.statusCode).toEqual(200)
+    })
+
+    it('Updates the complete and ontime field of a habit date', async() => {
+        const res = await request(api).put('/habitdates/1').send({complete: true, ontime: true})
+        expect(res.statusCode).toEqual(200)
+    })
+
+    // Delete a habit
     it('Delete a habit', async() => {
         const res = await request(api).delete('/habits/1').set({Authorization: token})
         expect(res.statusCode).toEqual(204);

@@ -38,6 +38,21 @@ module.exports = class HabitDate {
 		})
 	}
 
+	static findByHabitId(id){
+		return new Promise(async (resolve, reject) => {
+			try {
+				let habitData = await db.query(
+					`SELECT * FROM habitdates WHERE habit_id = $1`,
+					[id]
+				)
+				let target = habitData.rows.map(h => new HabitDate(h))
+				resolve(target)
+			} catch (err) {
+				reject("Habit date not found")
+			}
+		})
+	}
+
 	static create(id, date) {
 		return new Promise(async (resolve, reject) => {
 			try {
@@ -59,6 +74,7 @@ module.exports = class HabitDate {
 		return new Promise(async (resolve, reject) => {
 			try {
 				const { date_id, complete, on_time } = data
+				console.log(data);
 				let result = await db.query(
 					"UPDATE habitdates SET complete = $1, on_time = $2 WHERE habitdate_id = $3 RETURNING habitdate_id;",
 					[complete, on_time, id]

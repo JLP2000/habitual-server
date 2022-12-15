@@ -7,7 +7,7 @@
   "scripts": {
     "setup-dev": "node ./db/seed.js",
     "start": "nodemon --trace-warnings server.js",
-    "test": "jest --setupFiles ./tests/integration/config.js --watchAll --detectOpenHandles --runInBand --verbose"
+    "test": "jest --setupFiles ./tests/integration/config.js --watchAll --detectOpenHandles --runInBand --verbose --coverage"
   },
   "keywords": [],
   "author": "",

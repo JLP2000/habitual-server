@@ -19,6 +19,16 @@ async function show(req, res) {
     };
 }
 
+async function showHabitDates(req, res) {
+    try {
+        const habitdate = await HabitDate.findByHabitId(req.params.id);
+        // const habits = await HabitDate.habits;
+        res.status(200).json({habitdate});
+    } catch (err) {
+        res.status(500).send(err);
+    };
+}
+
 async function update(req, res) {
     try {
         const habitdate = await HabitDate.update(req.params.id, req.body);
@@ -29,4 +39,4 @@ async function update(req, res) {
 }
 
 
-module.exports = { index, show, update }
+module.exports = { index, show, showHabitDates, update }
