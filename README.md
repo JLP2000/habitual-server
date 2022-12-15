@@ -112,6 +112,7 @@ A test suite was also created using jest and a test database on ElephantSQL to t
 - Switching between using test database during tests and the main database when running normally
 - Implementing where a HabitDate is created for each day between a habit's start and end date
 ## Future Features
+- Increasing test coverage and seperating the tests into different files for each model
 - Adding a category element to the Habits object so that the client side is able to categorize habits
 
 ## Licence
