@@ -38,9 +38,9 @@ async function destroy(req, res) {
 	try {
 		const habit = await Habit.findById(req.params.id)
 		const resp = await habit.destroy()
-		res.status(204).end()
+		res.status(204).send()
 	} catch (err) {
-		res.status(404).json(err);
+		res.status(404).json(err)
 		console.log(err)
 	}
 }
@@ -54,5 +54,4 @@ async function update(req, res) {
 	}
 }
 
-
-module.exports = { index, show, create, destroy, update}
+module.exports = { index, show, create, destroy, update }

@@ -2,15 +2,15 @@ const bcrypt = require("bcrypt")
 const User = require("../models/User")
 const Session = require("../models/Session")
 
-async function show(req, res){
-	try{
+async function show(req, res) {
+	try {
 		const token = req.params.sessiontoken
 		const sesh = await Session.findBySessionToken(token)
 		const user = await User.findById(sesh.user_id)
 		res.status(200).send(user)
-	}catch(err){
-		console.log(err);
-		res.status(400).json({error: err})
+	} catch (err) {
+		console.log(err)
+		res.status(400).json({ error: err })
 	}
 }
 
@@ -65,13 +65,12 @@ async function login(req, res) {
 
 async function logout(req, res) {
 	try {
-		const session = await Session.findBySessionToken(req.body);
-		const resp = session.destroy();
-		res.status(204).end();
+		const session = await Session.findBySessionToken(req.body)
+		const resp = session.destroy()
+		res.status(204).send()
 	} catch (err) {
-		res.status(404).json({err});
+		res.status(404).json({ err })
 	}
-	
 }
 
-module.exports = {show, register, login, logout }
+module.exports = { show, register, login, logout }
