@@ -6,7 +6,8 @@
   "main": "app.js",
   "scripts": {
     "setup-dev": "node ./db/seed.js",
-    "start": "nodemon --trace-warnings server.js",
+    "start": "node server.js",
+    "dev": "nodemon --trace-warnings server.js",
     "test": "jest --setupFiles ./tests/integration/config.js --watchAll --detectOpenHandles --runInBand --verbose --coverage"
   },
   "keywords": [],
